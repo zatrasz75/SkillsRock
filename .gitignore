@@ -11,6 +11,13 @@
 # Test binary, built with `go test -c`
 *.test
 
+.idea
+var
+*.md
+*.log
+node_modules
+vendor
+
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
@@ -21,5 +28,3 @@
 go.work
 go.work.sum
 
-# env file
-.env

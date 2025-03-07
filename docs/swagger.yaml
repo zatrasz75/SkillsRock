@@ -1,0 +1,137 @@
+basePath: /
+definitions:
+  fiber.Map:
+    additionalProperties: true
+    type: object
+  models.Task:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: zatrasz@ya.ru
+    name: Михаил Токмачев
+    url: https://t.me/Zatrasz
+  title: Тестовое задание SkillsRock
+  version: "1.0"
+paths:
+  /tasks:
+    get:
+      description: Возвращает список всех задач с лимитом 100 записей
+      responses:
+        "200":
+          description: Успешно созданная задача
+          schema:
+            $ref: '#/definitions/models.Task'
+        "500":
+          description: Ошибка получения задач
+          schema:
+            type: string
+      summary: Получение всех задач
+      tags:
+      - Tasks
+    post:
+      consumes:
+      - application/json
+      description: Принимает обязательные поля title и description. Поле status устанавливается
+        автоматически в "new".
+      parameters:
+      - description: Данные задачи
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешно созданная задача
+          schema:
+            $ref: '#/definitions/models.Task'
+        "400":
+          description: Ошибка парсинга тела запроса
+          schema:
+            type: string
+        "500":
+          description: Ошибка создания задачи
+          schema:
+            type: string
+      summary: Создайте нового задачи
+      tags:
+      - Tasks
+  /tasks/{id}:
+    delete:
+      description: Удаляет задачу по её ID.
+      parameters:
+      - description: ID задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задача успешно удалена
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "400":
+          description: Неверный ID
+          schema:
+            type: string
+        "500":
+          description: Ошибка удаления задачи
+          schema:
+            type: string
+      summary: Удаление задачи
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      description: Обновляет задачу по её ID. Принимает обязательные поля title, description
+        и status.
+      parameters:
+      - description: ID задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные для обновления задачи
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задача успешно обновлена
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "400":
+          description: Ошибка парсинга тела запроса или неверный ID
+          schema:
+            type: string
+        "500":
+          description: Ошибка обновления задачи
+          schema:
+            type: string
+      summary: Обновление задачи
+      tags:
+      - Tasks
+swagger: "2.0"

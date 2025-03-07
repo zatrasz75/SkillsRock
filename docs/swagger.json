@@ -1,0 +1,204 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Тестовое задание SkillsRock",
+        "contact": {
+            "name": "Михаил Токмачев",
+            "url": "https://t.me/Zatrasz",
+            "email": "zatrasz@ya.ru"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/tasks": {
+            "get": {
+                "description": "Возвращает список всех задач с лимитом 100 записей",
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Получение всех задач",
+                "responses": {
+                    "200": {
+                        "description": "Успешно созданная задача",
+                        "schema": {
+                            "$ref": "#/definitions/models.Task"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка получения задач",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Принимает обязательные поля title и description. Поле status устанавливается автоматически в \"new\".",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Создайте нового задачи",
+                "parameters": [
+                    {
+                        "description": "Данные задачи",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно созданная задача",
+                        "schema": {
+                            "$ref": "#/definitions/models.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка парсинга тела запроса",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка создания задачи",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/{id}": {
+            "put": {
+                "description": "Обновляет задачу по её ID. Принимает обязательные поля title, description и status.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Обновление задачи",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID задачи",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Данные для обновления задачи",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Задача успешно обновлена",
+                        "schema": {
+                            "$ref": "#/definitions/fiber.Map"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка парсинга тела запроса или неверный ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка обновления задачи",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет задачу по её ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Удаление задачи",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID задачи",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Задача успешно удалена",
+                        "schema": {
+                            "$ref": "#/definitions/fiber.Map"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка удаления задачи",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "fiber.Map": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "models.Task": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
